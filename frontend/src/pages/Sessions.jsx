@@ -18,6 +18,7 @@ export default function Sessions() {
               <th>会话号</th>
               <th>站点桩位</th>
               <th>状态</th>
+              <th>开充</th>
               <th>电量</th>
               <th>金额</th>
               <th>营业日</th>
@@ -33,6 +34,13 @@ export default function Sessions() {
                 </td>
                 <td>
                   <span className={`tag ${s.status}`}>{s.status}</span>
+                </td>
+                <td>
+                  {s.abnormal_open ? (
+                    <span className="tag 故障" title={s.open_reason}>异常开充</span>
+                  ) : (
+                    <span className="tag 空闲">正常</span>
+                  )}
                 </td>
                 <td>{s.kwh}</td>
                 <td>{s.amount}</td>
@@ -51,6 +59,11 @@ export default function Sessions() {
         <div className="panel">
           <h3>
             {detail.slip_no} · <span className={`tag ${detail.status}`}>{detail.status}</span>
+            {detail.abnormal_open ? (
+              <span className="tag 故障" style={{ marginLeft: 8 }}>
+                异常开充：{detail.open_reason}
+              </span>
+            ) : null}
           </h3>
           <p>
             锁定电价 {detail.price_locked} · 电量 {detail.kwh} · 金额 {detail.amount}

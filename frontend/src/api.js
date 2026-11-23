@@ -26,6 +26,7 @@ export const api = {
   费率: () => req('/费率'),
   会话: (状态) => req(状态 ? `/会话?状态=${encodeURIComponent(状态)}` : '/会话'),
   会话详情: (id) => req(`/会话/${id}`),
+  开充审计: (营业日) => req(营业日 ? `/开充审计?营业日=${encodeURIComponent(营业日)}` : '/开充审计'),
   开会话: (body) => req('/开会话', { method: 'POST', body: JSON.stringify(body) }),
   脉冲: (id, body) => req(`/会话/${id}/脉冲`, { method: 'POST', body: JSON.stringify(body) }),
   结算: (id) => req(`/会话/${id}/结算`, { method: 'POST', body: '{}' }),

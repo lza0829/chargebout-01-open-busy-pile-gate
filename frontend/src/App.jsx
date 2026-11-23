@@ -5,6 +5,7 @@ import Piles from './pages/Piles'
 import Guns from './pages/Guns'
 import Rates from './pages/Rates'
 import OpenSession from './pages/OpenSession'
+import OpenAudits from './pages/OpenAudits'
 import Sessions from './pages/Sessions'
 import Pulses from './pages/Pulses'
 import Settle from './pages/Settle'
@@ -15,6 +16,7 @@ import Settings from './pages/Settings'
 const links = [
   ['/', '总览'],
   ['/开会话', '开会话'],
+  ['/开充审计', '开充审计'],
   ['/脉冲', '记脉冲'],
   ['/结算', '结算关账'],
   ['/超时', '超时中断'],
@@ -47,6 +49,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/开会话" element={<OpenSession />} />
+          <Route path="/开充审计" element={<OpenAudits />} />
           <Route path="/脉冲" element={<Pulses />} />
           <Route path="/结算" element={<Settle />} />
           <Route path="/超时" element={<Timeout />} />

@@ -1,9 +1,10 @@
 from __future__ import annotations
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
-from app.db import db
+from app.db import db, db_immediate
 from app.services import core
 from app.services import sessions as svc
+from app.services.sessions import OpenRejected
 
 router = APIRouter()
 
@@ -39,8 +40,21 @@ def get_session(session_id: int):
 
 @router.post("/开会话")
 def open_session(body: OpenIn):
+    # 写侧唯一入口：立即事务串行化并发开充；成功六视图同刷，失败整笔回滚。
+    try:
+        with db_immediate() as conn:
+            return svc.open_session(conn, body.桩位编号, body.枪线编号)
+    except OpenRejected as e:
+        # 硬拒绝：主事务未留任何会话/占用痕迹；用独立短事务补登审计，保证拒绝可核。
+        with db() as audit_conn:
+            svc.insert_open_audit(audit_conn, e.audit)
+        raise HTTPException(400, detail=e.detail)
+
+
+@router.get("/开充审计")
+def list_open_audits(营业日: str | None = None):
     with db() as conn:
-        return svc.open_session(conn, body.桩位编号, body.枪线编号)
+        return core.list_open_audits(conn, 营业日)
 
 
 @router.post("/会话/{session_id}/脉冲")

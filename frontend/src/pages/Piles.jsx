@@ -30,6 +30,7 @@ export default function Piles() {
               <th>额定功率</th>
               <th>费率</th>
               <th>状态</th>
+              <th>可开充</th>
               <th />
             </tr>
           </thead>
@@ -42,6 +43,11 @@ export default function Piles() {
                 <td>{p.rate_name}</td>
                 <td>
                   <span className={`tag ${p.status}`}>{p.status}</span>
+                </td>
+                <td>
+                  <span className={`tag ${p.openable ? '可用' : '维护'}`}>
+                    {p.openable ? '可正常开充' : '仅异常开充'}
+                  </span>
                 </td>
                 <td className="row" style={{ border: 0 }}>
                   {['空闲', '维护', '故障'].map((s) => (

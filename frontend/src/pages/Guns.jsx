@@ -17,6 +17,7 @@ export default function Guns() {
               <th>桩位</th>
               <th>枪名</th>
               <th>状态</th>
+              <th>可开充（服务端谓词）</th>
             </tr>
           </thead>
           <tbody>
@@ -26,6 +27,11 @@ export default function Guns() {
                 <td>{g.name}</td>
                 <td>
                   <span className={`tag ${g.status}`}>{g.status}</span>
+                </td>
+                <td>
+                  <span className={`tag ${g.openable ? '可用' : '维护'}`}>
+                    {g.openable ? '可正常开充' : '非可用'}
+                  </span>
                 </td>
               </tr>
             ))}
